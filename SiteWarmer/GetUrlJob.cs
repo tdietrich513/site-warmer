@@ -27,12 +27,12 @@
                 catch (Exception ex)
                 {
                     sw.Stop();
-                    log.Error(string.Format("Error Fetching {0}!", uri.AbsoluteUri), ex);
+                    log.Error(string.Format("Job {1} Failed: Error Fetching {0}!", uri.AbsoluteUri, context.JobDetail.Key.Name), ex);
                     return;
                 }                
             }
-            sw.Stop();
-            log.Info(string.Format("Fetched: {0}. Duration: {1} ms",uri.AbsoluteUri, sw.ElapsedMilliseconds));
+            sw.Stop();            
+            log.Info(string.Format("Executed Job {2} - Fetched: {0}. Duration: {1} ms",uri.AbsoluteUri, sw.ElapsedMilliseconds, context.JobDetail.Key.Name));
         }
     }
 }
