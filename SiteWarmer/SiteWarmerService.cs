@@ -1,6 +1,7 @@
 ﻿namespace SiteWarmer
 {
     using System;
+    using System.IO;
     using System.ServiceProcess;
 
     using Common.Logging;
@@ -23,7 +24,7 @@
             var js = new JobSettings();
             
             _log = LogManager.GetLogger("SiteWarmer");
-            _log.Info("Starting Up...");
+            _log.Info("Starting Up...");            
 
             var schedFact = new StdSchedulerFactory();
             
@@ -34,11 +35,10 @@
             foreach (var j in js.Jobs)
             {
                 _log.Info(String.Format("Initialized Job: {0} URL: {1} Schedule: {2}", j.Name, j.Url, j.Schedule));
-                var jobDetail = new JobDetailImpl(j.Name, null, typeof(GetUrlJob));
-                jobDetail.JobDataMap["url"] = j.Url;
-
+                
+                var jobDetail = JobBuilder.Create<GetUrlJob>().WithIdentity(j.Name).UsingJobData("url", j.Url).Build();
                 var trigger = TriggerBuilder.Create().WithCronSchedule(j.Schedule).Build();
-
+                
                 _sched.ScheduleJob(jobDetail, trigger);
             }            
         }
