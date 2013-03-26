@@ -11,7 +11,13 @@ Each job looks like this.
            url="URL FOR WEB REQUEST TO BE PERFORMED"
            schedule="CRON FORMATED SCHEDULE" />
 
-A job to hit google every hour would look like this:
+A job to hit google every 15 minutes would look like this:
+   
     <job name="Google" 
            url="http://www.google.com"
-           schedule="0 * 0/1 * * ?" />
+           schedule="* 0/15 * * * ?" />
+           
+           
+This uses the [Quartz.Net cron][1] format.   
+
+  [1]: http://quartznet.sourceforge.net/tutorial/lesson_6.html
